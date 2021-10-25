@@ -1,0 +1,128 @@
+{
+  "version": 1,
+  "projects": {
+    "ngmafaka": {
+      "projectType": "application",
+      "root": "apps/ngmafaka",
+      "sourceRoot": "apps/ngmafaka/src",
+      "prefix": "mafaka",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/ngmafaka",
+            "index": "apps/ngmafaka/src/index.html",
+            "main": "apps/ngmafaka/src/main.ts",
+            "polyfills": "apps/ngmafaka/src/polyfills.ts",
+            "tsConfig": "apps/ngmafaka/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/ngmafaka/src/favicon.ico",
+              "apps/ngmafaka/src/assets"
+            ],
+            "styles": ["apps/ngmafaka/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/ngmafaka/src/environments/environment.ts",
+                  "with": "apps/ngmafaka/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "ngmafaka:build:production"
+            },
+            "development": {
+              "browserTarget": "ngmafaka:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ngmafaka:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/ngmafaka/src/**/*.ts",
+              "apps/ngmafaka/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/ngmafaka"],
+          "options": {
+            "jestConfig": "apps/ngmafaka/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "ngmafaka-e2e": {
+      "root": "apps/ngmafaka-e2e",
+      "sourceRoot": "apps/ngmafaka-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/ngmafaka-e2e/cypress.json",
+            "devServerTarget": "ngmafaka:serve:development",
+            "tsConfig": "apps/ngmafaka-e2e/tsconfig.json"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ngmafaka:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/ngmafaka-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["ngmafaka"]
+    }
+  }
+}
